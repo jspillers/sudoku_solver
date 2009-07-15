@@ -3,28 +3,31 @@
 # - the methods necessary to access rows, columns,
 #   blocks of rows or columns and the invidual blocks
 # - analyzing a puzzle to determine if it is solved
+#
+# this is an example of how the puzzle data is stored within this object
+#
+# [ 
+#   [ # calling this is a block row
+#     [[0,1,0], [7,0,4], [0,8,0]], # and this is a block sub row
+#     [[2,0,0], [5,3,1], [0,0,9]], # each triplet is referred to as a block column
+#     [[0,0,0], [0,0,0], [0,0,0]],
+#   ],
+#   [
+#     [[1,2,0], [0,0,0], [0,5,6]],
+#     [[0,6,0], [0,0,0], [0,9,0]],
+#     [[9,4,0], [0,0,0], [0,3,7]],
+#   ],
+#   [
+#     [[0,0,0], [0,0,0], [0,0,0]],
+#     [[8,0,0], [6,7,3], [0,0,2]],
+#     [[0,5,0], [1,0,9], [0,4,0]]
+#   ]
+# ]
 class Puzzle
 
   attr_accessor :x, :y
 
   def initialize
-   #@rows = [
-   #  [ # calling this is a block row
-   #    [[0,1,0], [7,0,4], [0,8,0]], # and this is a block sub row
-   #    [[2,0,0], [5,3,1], [0,0,9]], # each triplet is referred to as a block column
-   #    [[0,0,0], [0,0,0], [0,0,0]],
-   #  ],
-   #  [
-   #    [[1,2,0], [0,0,0], [0,5,6]],
-   #    [[0,6,0], [0,0,0], [0,9,0]],
-   #    [[9,4,0], [0,0,0], [0,3,7]],
-   #  ],
-   #  [
-   #    [[0,0,0], [0,0,0], [0,0,0]],
-   #    [[8,0,0], [6,7,3], [0,0,2]],
-   #    [[0,5,0], [1,0,9], [0,4,0]]
-   #  ]
-   #]
     @rows = [
       [ # calling this is a block row
         [[8,0,0], [0,4,0], [2,6,0]], # and this is a block sub row
