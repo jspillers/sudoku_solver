@@ -6,19 +6,17 @@ require 'rake'
 require 'spec/rake/spectask'
 require 'rake/rdoctask'
 
-Hoe.spec 'sudoku_solver' do
-  developer('Jarrod Spillers', 'me@jarrodspillers.com')
-
-  # self.rubyforge_name = 'sudoku_solverx' # if different than 'sudoku_solver'
+Hoe.spec 'sudoku_solver' do |hoe|
+  hoe.developer('Jarrod Spillers', 'me@jarrodspillers.com')
+  hoe.rspec_options = ['--options', 'spec/spec.opts']
 end
-
-# vim: syntax=ruby
 
 desc 'Default: run tests.'
 task :default => :spec
  
 desc "Run all examples"
 Spec::Rake::SpecTask.new(:spec) do |t|
+  t.spec_opts = ['--options', 'spec/spec.opts']
   t.spec_files = FileList['spec/**/*_spec.rb']
 end
  
@@ -29,6 +27,7 @@ end
  
 desc "Run all examples with RCov"
 Spec::Rake::SpecTask.new(:spec_rcov) do |t|
+  t.spec_opts = ['--options', 'spec/spec.opts']
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.rcov = true
 end
