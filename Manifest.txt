@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/sudoku_solver
+lib/sudoku_solver.rb
+test/test_sudoku_solver.rb
