@@ -6,7 +6,8 @@ end
  
 describe Solver do
   before(:each) do
-    @puzzle = Puzzle.new
+    filepath = File.dirname(__FILE__) + '/puzzles/easy_1.txt'
+    @puzzle = Puzzle.new(filepath)
     @solver = Solver.new(@puzzle)
   end
 

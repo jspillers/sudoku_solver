@@ -25,26 +25,13 @@
 # ]
 class Puzzle
 
-  attr_accessor :x, :y
+  attr_accessor :x, :y, :rows, :original_rows
 
-  def initialize
-    @rows = [
-      [ # calling this is a block row
-        [[8,0,0], [0,4,0], [2,6,0]], # and this is a block sub row
-        [[3,0,0], [0,0,6], [0,0,0]], # each triplet is referred to as a block column
-        [[4,6,0], [7,0,0], [0,0,0]],
-      ],
-      [
-        [[2,0,0], [4,8,0], [5,0,0]],
-        [[0,0,0], [0,0,0], [0,0,0]],
-        [[0,0,8], [0,3,9], [0,0,6]],
-      ],
-      [
-        [[0,0,0], [0,0,4], [0,7,9]],
-        [[0,0,0], [1,0,0], [0,0,5]],
-        [[0,4,1], [0,6,0], [0,0,3]]
-      ]
-    ]
+  def initialize(filepath)
+    init_rows
+    tmp_rows = parse_file(filepath)
+    parse_rows(tmp_rows)
+    @original_rows = @rows.clone
     @x = 0
     @y = 0
     @solved = false
@@ -55,7 +42,7 @@ class Puzzle
     @x, @y = coordinates
   end
 
-  # returns an array of the entire row for which the x,y row
+  # returns an array of the entire row for the current x,y
   def row
     @rows[block_row][block_sub_row].inject([]) {|j,k| j += k }
   end
@@ -112,13 +99,14 @@ class Puzzle
     @rows[block_row][block_sub_row][block_column][block_sub_column] = value
   end
 
-  def print_rows
+  def to_s
+    rows = ""
     @rows.each do |block_row|
       block_row.each do |block_sub_row|
-        puts block_sub_row.inspect
+        rows << block_sub_row.flatten.join(" ") + "\n"
       end
     end
-    puts ""
+    rows
   end
 
   def solved?
@@ -157,5 +145,51 @@ class Puzzle
 
   def block_sub_column
     @x - block_column * 3
+  end
+
+  def parse_file(filepath)
+    file_rows = []
+    begin
+      file = File.new(filepath, "r")
+      while (line = file.gets)
+        file_rows << line.split(" ").map{ |x| x.to_i }
+      end
+      file.close
+    rescue => err
+      raise "you must supply a filepath for the puzzle data"
+      err
+    end
+    file_rows
+  end
+
+  def parse_rows(rows)
+    rows.each_with_index do |row,y|
+      row.each_with_index do |val,x|
+        self.xy = [x,y]
+        self.value = val
+      end
+    end
+  end
+
+  # create the array structure in which we will 
+  # store our puzzle data
+  def init_rows
+    @rows = [
+      [
+        [[],[],[]],
+        [[],[],[]],
+        [[],[],[]]
+      ],
+      [
+        [[],[],[]],
+        [[],[],[]],
+        [[],[],[]]
+      ],
+      [
+        [[],[],[]],
+        [[],[],[]],
+        [[],[],[]]
+      ]
+    ]
   end
 end
