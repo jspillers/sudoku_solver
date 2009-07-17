@@ -25,13 +25,12 @@
 # ]
 class Puzzle
 
-  attr_accessor :x, :y, :rows, :original_rows
+  attr_accessor :x, :y, :rows, :candidates
 
   def initialize(filepath)
     init_rows
     tmp_rows = parse_file(filepath)
     parse_rows(tmp_rows)
-    @original_rows = @rows.clone
     @x = 0
     @y = 0
     @solved = false
@@ -87,6 +86,17 @@ class Puzzle
       block += block_sub_row[block_column]  
     end
     block
+  end
+
+  def each_block
+    blocks = []
+    [0,3,6].each do |y|
+      [0,3,6].each do |x|
+        self.xy = [x,y]
+        blocks << self.block
+      end
+    end
+    blocks
   end
 
   # get the value for a specific slot in the grid
