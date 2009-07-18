@@ -73,6 +73,22 @@ describe Puzzle do
     )
   end
 
+  it "should set the correct block" do
+    @puzzle.xy = [0,0]
+    @puzzle.block = [1,2,3,4,5,6,7,8,9]
+    @puzzle.block.should eql(
+      [1,2,3,4,5,6,7,8,9]
+    )
+  end
+
+  it "should set the correct blocks for entire grid" do
+    a = (1..9).to_a
+    @puzzle.blocks = [a,a,a,a,a,a,a,a,a]
+    @puzzle.each_block.each do |block|
+      block.should eql(a)
+    end
+  end
+
   it "should return the correct blocks" do
     @puzzle.each_block.should eql(
       [
@@ -89,12 +105,3 @@ describe Puzzle do
     )
   end
 end
-       
-       
-       
-  
-  
-  
-  
-  
-  

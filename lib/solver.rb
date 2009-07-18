@@ -57,10 +57,11 @@ class Solver
   end
 
   def execute_strategy
-    naked_singles  
+    find_and_assign_naked_singles  
+    find_and_assign_hidden_singles  
   end
 
-  def find_naked_singles
+  def find_and_assign_naked_singles
     loop_xy do |x,y|
       @puzzle.xy = [x,y]
       @candidates.xy = [x,y]
@@ -75,10 +76,39 @@ class Solver
     end
   end
 
-  def find_hidden_singles
-    @candidates.each_block.each do |block|
-      # find the hidden singles
+  def find_and_assign_hidden_singles
+    tmp_block_candidates = [[],[],[],[],[],[],[],[],[]]
+
+    @candidates.each_block.each_with_index do |block_candidates,index|
+      uniqs_array = block_candidates.flatten
+
+      (1..9).to_a.each do |num| 
+        tmp_array = uniqs_array.select {|i| i == num }
+        uniqs_array.delete(num) if tmp_array.size > 1
+      end
+
+      block_candidates.each_with_index do |c,i| 
+        uniqs_array.each do |unum| 
+          if c.include?(unum)
+            tmp_block_candidates[index][i] = [ unum ] 
+            break
+          end
+        end
+        tmp_block_candidates[index][i] = c if tmp_block_candidates[index][i].nil?
+      end
     end
+
+   #loop_xy do |x,y|
+   #  @puzzle.xy = [x,y]
+   #  @candidates.xy = [x,y]
+
+   #  if tmp[y][x].size == 1 && @puzzle.value == 0
+   #    @candidates.value = tmp[y][x].first
+   #    @puzzle.value = tmp[y][x].first 
+   #    @single_candidates_found += 1
+   #    @total_values_assigned += 1
+   #  end
+   #end
   end
 
   protected

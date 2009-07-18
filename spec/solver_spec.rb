@@ -25,11 +25,24 @@ describe Solver do
 
   it "should find all candidates" do
     @solver.find_all_candidates
-    @solver.candidates.rows.flatten.should eql(
-      [7,2,6,8,3,8,3,5,6,9,3,8,3,4,8,1,1,1,3,1,8,3,7,8,4,2,3,8,9,6,5,5,9,4,1,3,6,8,2,
-       3,8,7,2,1,4,6,9,1,4,6,7,4,9,8,1,4,5,1,2,4,3,8,1,4,1,5,2,1,3,5,6,1,7,1,4,9,2,1,
-       4,3,4,9,7,1,4,5,6,1,4,8,4,1,6,5,1,2,6,8,1,3,4,9,7,1,4,6,9,8,1,6,9,5,2,1,4,7,1,
-       3,1,3,6,3,1,4,7,1,2,9,6,1,9,1,4,7,1,2,5,8]
+    @solver.candidates.rows.should eql(
+      [
+        [
+          [[[7],[2],[6,8]],[[3,8],[3,5,6],[9]],[[3,8],[3,4,8],[1]]],
+          [[[1],[1,3],[1,8]],[[3,7,8],[4],[2]],[[3,8,9],[6],[5]]],
+          [[[5],[9],[4]],[[1],[3,6],[8]],[[2,3,8],[7],[2]]]
+        ],
+        [
+          [[[1,4,6,9],[1,4,6],[7]],[[4,9],[8],[1,4]],[[5],[1,2,4],[3]]],
+          [[[8],[1,4],[1,5]],[[2],[1,3,5],[6]],[[1,7],[1,4],[9]]],
+          [[[2],[1,4],[3]],[[4,9],[7],[1,4,5]],[[6],[1,4,8],[4]]]
+        ],
+        [
+          [[[1,6],[5],[1,2,6]],[[8],[1],[3]],[[4],[9],[7]]],
+          [[[1,4,6,9],[8],[1,6,9]],[[5],[2],[1,4,7]],[[1,3],[1,3],[6]]],
+          [[[3],[1,4,7],[1,2,9]],[[6],[1,9],[1,4,7]],[[1,2],[5],[8]]]
+        ]
+      ]
     )
   end
 
@@ -50,17 +63,24 @@ describe Solver do
   it "should assign all naked single candidates back to the puzzle" do
     @solver.puzzle.rows.flatten.delete_if {|x| x == 0 }.size.should eql(36)
     @solver.find_all_candidates
-    @solver.find_naked_singles
+    @solver.find_and_assign_naked_singles
     @solver.single_candidates_found.should eql(8)
     @solver.puzzle.rows.flatten.delete_if {|x| x == 0 }.size.should eql(44)
   end
 
-  it "candidates should contain the correct hidden single candidates" do
-
+  it "should find the correct unique candidates from a block candidates row" do
+    @solver.find_all_candidates
+    @solver.find_and_assign_hidden_singles
   end
 
   it "should assign all hidden single candidates back to the puzzle" do
-
+   #@solver.find_all_candidates
+   #@solver.find_and_assign_naked_singles
+   #@solver.find_and_assign_hidden_singles
+   #puts ""
+   #puts @solution.to_s
+   #puts "" 
+   #puts @puzzle.to_s
   end
 
  #it "should solve an easy puzzle" do

@@ -1,7 +1,7 @@
 # this class is responsible for 
 # - storing the puzzle data
 # - the methods necessary to access rows, columns,
-#   blocks of rows or columns and the invidual blocks
+#   blocks of rows/columns and the invidual blocks
 # - analyzing a puzzle to determine if it is solved
 #
 # this is an example of how the puzzle data is stored within this object
@@ -23,6 +23,21 @@
 #     [[0,5,0], [1,0,9], [0,4,0]]
 #   ]
 # ]
+#
+# when creating a new puzzle a file path
+# must be supplied in this format with 0's
+# to represent empty cells:
+#
+#     7 2 0 0 0 9 0 0 1
+#     0 0 0 0 4 2 0 6 0
+#     5 9 4 1 0 0 0 7 0
+#     0 0 7 0 8 0 5 0 3
+#     8 0 0 2 0 6 0 0 9
+#     2 0 3 0 7 0 6 0 0
+#     0 5 0 0 0 3 4 9 7
+#     0 8 0 5 2 0 0 0 0
+#     3 0 0 6 0 0 0 5 8
+#
 class Puzzle
 
   attr_accessor :x, :y, :rows, :candidates
@@ -81,22 +96,44 @@ class Puzzle
 
   # returns an array of the block of which the x,y is a member
   def block
-    block = []
+    block_array = []
     @rows[block_row].each do |block_sub_row|
-      block += block_sub_row[block_column]  
+      block_array += block_sub_row[block_column]  
     end
-    block
+    block_array
   end
 
-  def each_block
-    blocks = []
+  def block=(block_array)
+    tmp = []
+    tmp[0] = block_array[0..2]
+    tmp[1] = block_array[3..5]
+    tmp[2] = block_array[6..8]
+
+    tmp.each_with_index do |values,i|
+      @rows[block_row][i][block_column] = values
+    end
+  end
+
+  def blocks=(blocks_array)
+    i = 0
     [0,3,6].each do |y|
       [0,3,6].each do |x|
         self.xy = [x,y]
-        blocks << self.block
+        self.block = blocks_array[i]
+        i += 1
       end
     end
-    blocks
+  end
+
+  def each_block
+    blocks_array = []
+    [0,3,6].each do |y|
+      [0,3,6].each do |x|
+        self.xy = [x,y]
+        blocks_array << self.block
+      end
+    end
+    blocks_array
   end
 
   # get the value for a specific slot in the grid
