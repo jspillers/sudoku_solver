@@ -103,6 +103,7 @@ class Puzzle
     block_array
   end
 
+  # assigns a block - accepts a single array of values
   def block=(block_array)
     tmp = []
     tmp[0] = block_array[0..2]
@@ -114,6 +115,7 @@ class Puzzle
     end
   end
 
+  # assigns whole blocks - accepts an array of arrays
   def blocks=(blocks_array)
     i = 0
     [0,3,6].each do |y|
@@ -125,6 +127,7 @@ class Puzzle
     end
   end
 
+  # returns the blocks as an array of arrays
   def each_block
     blocks_array = []
     [0,3,6].each do |y|
@@ -146,6 +149,7 @@ class Puzzle
     @rows[block_row][block_sub_row][block_column][block_sub_column] = value
   end
 
+  # returns the puzzle in a string representation
   def to_s
     rows = ""
     @rows.each do |block_row|

@@ -23,13 +23,12 @@ class Solver
       execute_strategy
     end while @single_candidates_found > 0 && @puzzle.solved? == false
 
-    if @puzzle.solved?
-      @puzzle.print_rows
-    else
+    if !@puzzle.solved?
       puts "could not solve"
       puts "assigned #{@total_values_assigned}"
-      @puzzle.print_rows
     end
+
+    puts @puzzle.to_s
   end
   
   # loops through every slot in the puzzle
@@ -57,7 +56,7 @@ class Solver
   end
 
   def execute_strategy
-    find_and_assign_naked_singles  
+    #find_and_assign_naked_singles  
     find_and_assign_hidden_singles  
   end
 
@@ -98,17 +97,9 @@ class Solver
       end
     end
 
-   #loop_xy do |x,y|
-   #  @puzzle.xy = [x,y]
-   #  @candidates.xy = [x,y]
+    @candidates.blocks = tmp_block_candidates
 
-   #  if tmp[y][x].size == 1 && @puzzle.value == 0
-   #    @candidates.value = tmp[y][x].first
-   #    @puzzle.value = tmp[y][x].first 
-   #    @single_candidates_found += 1
-   #    @total_values_assigned += 1
-   #  end
-   #end
+    find_and_assign_naked_singles
   end
 
   protected

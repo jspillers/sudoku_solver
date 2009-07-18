@@ -74,17 +74,16 @@ describe Solver do
   end
 
   it "should assign all hidden single candidates back to the puzzle" do
-   #@solver.find_all_candidates
-   #@solver.find_and_assign_naked_singles
-   #@solver.find_and_assign_hidden_singles
-   #puts ""
-   #puts @solution.to_s
-   #puts "" 
-   #puts @puzzle.to_s
+   @solver.find_all_candidates
+   @solver.find_and_assign_hidden_singles
+  #puts ""
+  #puts @solution.to_s
+  #puts "" 
+  #puts @puzzle.to_s
   end
 
- #it "should solve an easy puzzle" do
- #  @solver.solve
- #  @puzzle.rows.should eql(@solution.rows)
- #end
+  it "should solve an easy puzzle" do
+    @solver.solve
+    @puzzle.rows.should eql(@solution.rows)
+  end
 end
